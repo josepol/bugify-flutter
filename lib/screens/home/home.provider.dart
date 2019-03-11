@@ -16,13 +16,14 @@ class HomeProvider {
 
   Future getBugs() async {
     try {
-      Map<String, String> requestHeaders = {
+      Map<String, dynamic> requestHeaders = {
         'Content-type': 'application/json',
         'Accept': 'application/json',
-        'authorization': await this.authProvider.getToken().first
+        'authorization': 'bearer ' + await this.authProvider.getToken().first
       };
       var url = "http://apibuggify.polsastre.com/bug/listAll";
-      return await http.get(url, headers: requestHeaders);
+      Options options = Options(responseType: ResponseType.json, headers: requestHeaders);
+      return await dio.get(url, options: options);
     } catch (error) {
       print(error);
     }

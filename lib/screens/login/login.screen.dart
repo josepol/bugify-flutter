@@ -60,8 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
     // this._passwordTextFieldController.clear();
     LoginModel loginModel = LoginModel(this.username, this.password);
     this.loginProvider.login(loginModel).then((response) {
-      Response dioResponse = response;
-      TokenModel tokenModel = TokenModel.fromJSON(dioResponse.data);
+      TokenModel tokenModel = TokenModel.fromJSON(response.data);
       this.getSharedPreferences(tokenModel);
       this.autProvider.setToken(tokenModel.token);
       Navigator.pushReplacementNamed(context, Constants.HOME_ROUTE);

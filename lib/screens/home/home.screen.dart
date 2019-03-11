@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void getBugs() {
     this.homeProvider.getBugs().then((response) {
       if (response.statusCode == 200) {
-        List<Map> responseJson = json.decode(response.body);
+        List<Map> responseJson = json.decode(response.data);
         responseJson.map((r) {
           BugModel bug = BugModel.fromJson(r);
           this.bugs.add(bug);
