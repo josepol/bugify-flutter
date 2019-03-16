@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BugModel bugModel = BugModel.fromJson(bug);
           bugsModeled.add(bugModel);
         }).toList();
-        this.bugsBloc.homeEventSink.add(GetBugsEvent(bugsModeled));
+        this.bugsBloc.bugsEventSink.add(GetBugsEvent(bugsModeled));
       } else {
         print(response);
       }

@@ -10,7 +10,7 @@ class BugsBloc {
   Stream<List<BugModel>> get bugs => _bugsStreamController.stream;
 
   final _bugsEventController = StreamController<BugsEvent>();
-  Sink<BugsEvent> get homeEventSink => _bugsEventController.sink;
+  Sink<BugsEvent> get bugsEventSink => _bugsEventController.sink;
   
   BugsBloc() {
     _bugsEventController.stream.listen(_mapEventToState);
