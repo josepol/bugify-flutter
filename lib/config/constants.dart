@@ -4,4 +4,6 @@ class Constants {
   /// ROUTES
   static const LOGIN_ROUTE = '/login';
   static const HOME_ROUTE = '/home';
+  static const ADD_BUG = '/add-bug';
+  static const BUG_DETAIL = '/bug-detail';
 }

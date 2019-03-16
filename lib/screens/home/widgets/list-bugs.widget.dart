@@ -1,32 +1,62 @@
 import 'package:bugify/bug.model.dart';
+import 'package:bugify/config/theme.dart';
 import 'package:flutter/material.dart';
 
 class ListBugsWidget extends StatefulWidget {
-  ListBugsWidget({Key key, List<BugModel> bugs}) : super(key: key);
+  final List<BugModel> bugs;
 
-  _ListBugsWidgetState createState() => _ListBugsWidgetState();
+  ListBugsWidget({Key key, this.bugs}) : super(key: key);
+
+  _ListBugsWidgetState createState() => _ListBugsWidgetState(bugs);
 }
 
 class _ListBugsWidgetState extends State<ListBugsWidget> {
+  final List<BugModel> bugs;
+
+  _ListBugsWidgetState(this.bugs);
+
+  void navigateToBugDetail(BugModel bug) {
+    print(bug);
+    Navigator.pushNamed(context, '/bug-detail');
+  }
+
   @override
   Widget build(BuildContext context) {
+    GridTile _getGridTile(BugModel bug) {
+      return GridTile(
+        header: Container(
+          child: Center(
+            child: Text(bug.title, style: TextStyle(color: Colors.white)),
+          ),
+          height: 30,
+        ),
+        child: InkResponse(
+          onTap: () => this.navigateToBugDetail(bug),
+          child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: ThemeConfig.secondaryHeaderColor),
+              padding: EdgeInsets.only(top: 30),
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Text(bug.description),
+              )),
+        ),
+      );
+    }
+
     return Expanded(
       child: GridView.count(
-          crossAxisCount: 3,
+          crossAxisCount: 2,
           physics: BouncingScrollPhysics(),
           padding: EdgeInsets.all(10),
           mainAxisSpacing: 4.0,
           crossAxisSpacing: 4.0,
-          children: <String>[
-            'https://cdn.pixabay.com/photo/2017/05/09/21/49/gecko-2299365_1280.jpg',
-            'https://cdn.pixabay.com/photo/2017/05/09/21/49/gecko-2299365_1280.jpg',
-            'https://cdn.pixabay.com/photo/2017/05/09/21/49/gecko-2299365_1280.jpg',
-            'https://cdn.pixabay.com/photo/2017/05/09/21/49/gecko-2299365_1280.jpg'
-          ].map((String url) {
-            return new GridTile(
-              header: Image.network(url, fit: BoxFit.cover),
-              child: Container(child: Text('imageadadasdas'), color: Colors.red,));
-          }).toList()),
+          children: this.bugs != null
+              ? this.bugs.map((BugModel bug) {
+                  return _getGridTile(bug);
+                }).toList()
+              : []),
     );
   }
 }

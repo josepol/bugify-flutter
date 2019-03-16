@@ -1,9 +1,11 @@
+import 'dart:io';
+
 class BugModel{  
       String author;
       String category;
       String createdAt;
       String description;
-      String file;
+      List<int> file;
       String id;
       String solution;
       String title;
@@ -19,7 +21,7 @@ class BugModel{
             category: json['category'],
             createdAt: json['created_at'],
             description: json['description'],
-            file: json['file'],
+            file: [],// json['file'].data != null ? json['file'].data : [],
             id: json['id'],
             solution: json['solution'],
             title: json['title'],

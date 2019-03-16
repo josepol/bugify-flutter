@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bugify/bug.model.dart';
 import 'package:bugify/config/constants.dart';
+import 'package:bugify/config/theme.dart';
 import 'package:bugify/screens/home/home.provider.dart';
 import 'package:bugify/screens/home/widgets/list-bugs.widget.dart';
 import 'package:bugify/widgets/appbar.widget.dart';
@@ -20,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String token;
-  List<BugModel> bugs;
+  List<BugModel> bugs = List();
   SharedPreferences sharedPreferences;
   HomeProvider homeProvider = HomeProvider();
 
@@ -47,12 +48,13 @@ class _HomeScreenState extends State<HomeScreen> {
   void getBugs() {
     this.homeProvider.getBugs().then((response) {
       if (response.statusCode == 200) {
-        List<Map> responseJson = json.decode(response.data);
-        responseJson.map((r) {
-          BugModel bug = BugModel.fromJson(r);
-          this.bugs.add(bug);
-        });
-        print(this.bugs);
+        List<dynamic> bugs = response.data;
+        List<BugModel> bugsModeled = List();
+        bugs.map((bug) {
+          BugModel bugModel = BugModel.fromJson(bug);
+          bugsModeled.add(bugModel);
+        }).toList();
+        this.setState(() => this.bugs = bugsModeled);
       } else {
         print(response);
       }
@@ -73,6 +75,10 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
+  void addBug() {
+    Navigator.pushNamed(context, Constants.ADD_BUG);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +87,16 @@ class _HomeScreenState extends State<HomeScreen> {
             actionIcon: Icons.lock_outline,
             title: 'Bugs!'),
         body: Column(
-          children: <Widget>[ListBugsWidget()],
+          children: <Widget>[
+            ListBugsWidget(
+              bugs: this.bugs,
+            )
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: this.addBug,
+          child: Icon(Icons.add),
+          backgroundColor: ThemeConfig.primaryColor,
         ),
         drawer: DrawerWidget());
   }
