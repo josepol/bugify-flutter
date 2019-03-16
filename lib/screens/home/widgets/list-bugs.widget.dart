@@ -11,17 +11,27 @@ class ListBugsWidget extends StatefulWidget {
 }
 
 class _ListBugsWidgetState extends State<ListBugsWidget> {
-  final List<BugModel> bugs;
+  List<BugModel> bugs;
 
   _ListBugsWidgetState(this.bugs);
 
   void navigateToBugDetail(BugModel bug) {
-    print(bug);
     Navigator.pushNamed(context, '/bug-detail');
   }
 
   @override
+  void didUpdateWidget(ListBugsWidget oldWidget) {
+    if (this.bugs != widget.bugs) {
+      setState(() {
+        this.bugs = widget.bugs;
+      });
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('bugs ------------> $bugs');
     GridTile _getGridTile(BugModel bug) {
       return GridTile(
         header: Container(

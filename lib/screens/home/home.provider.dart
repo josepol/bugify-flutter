@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:bugify/auth.provider.dart';
 import 'package:dio/dio.dart';
-import 'package:http/http.dart' as http;
 
 class HomeProvider {
   Dio dio;

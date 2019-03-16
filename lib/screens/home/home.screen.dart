@@ -1,8 +1,8 @@
-import 'dart:convert';
-
 import 'package:bugify/bug.model.dart';
 import 'package:bugify/config/constants.dart';
 import 'package:bugify/config/theme.dart';
+import 'package:bugify/screens/home/home.bloc.dart';
+import 'package:bugify/screens/home/home.event.dart';
 import 'package:bugify/screens/home/home.provider.dart';
 import 'package:bugify/screens/home/widgets/list-bugs.widget.dart';
 import 'package:bugify/widgets/appbar.widget.dart';
@@ -21,17 +21,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String token;
-  List<BugModel> bugs = List();
   SharedPreferences sharedPreferences;
   HomeProvider homeProvider = HomeProvider();
+  HomeBloc homeBloc = HomeBloc();
 
   void initState() {
     super.initState();
-    this.getToken().then((token) => {this.getBugs()});
+    this.getToken().then((token) => this._getBugs());
   }
 
   Future getToken() async {
-    this.getSharedPreferences().then((sharedPreferences) {
+    this._getSharedPreferences().then((sharedPreferences) {
       this.sharedPreferences = sharedPreferences;
       String token = this.sharedPreferences.getString(Constants.TOKEN_REF);
       this.setState(() {
@@ -41,11 +41,11 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future<SharedPreferences> getSharedPreferences() async {
+  Future<SharedPreferences> _getSharedPreferences() async {
     return await SharedPreferences.getInstance();
   }
 
-  void getBugs() {
+  void _getBugs() {
     this.homeProvider.getBugs().then((response) {
       if (response.statusCode == 200) {
         List<dynamic> bugs = response.data;
@@ -54,14 +54,14 @@ class _HomeScreenState extends State<HomeScreen> {
           BugModel bugModel = BugModel.fromJson(bug);
           bugsModeled.add(bugModel);
         }).toList();
-        this.setState(() => this.bugs = bugsModeled);
+        this.homeBloc.homeEventSink.add(GetBugsEvent(bugsModeled));
       } else {
         print(response);
       }
     });
   }
 
-  void logout() {
+  void _logout() {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
-  void addBug() {
+  void _addBug() {
     Navigator.pushNamed(context, Constants.ADD_BUG);
   }
 
@@ -83,21 +83,33 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppbarWidget(
-            actionCallback: this.logout,
+            actionCallback: this._logout,
             actionIcon: Icons.lock_outline,
             title: 'Bugs!'),
         body: Column(
           children: <Widget>[
-            ListBugsWidget(
-              bugs: this.bugs,
+            StreamBuilder(
+              stream: homeBloc.bugs,
+              initialData: List<BugModel>(),
+              builder: (BuildContext context, AsyncSnapshot<List<BugModel>> snapshot) {
+                return ListBugsWidget(
+                  bugs: snapshot.data,
+                );
+              },
             )
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: this.addBug,
+          onPressed: this._addBug,
           child: Icon(Icons.add),
           backgroundColor: ThemeConfig.primaryColor,
         ),
         drawer: DrawerWidget());
+  }
+
+  @override
+  void dispose() {
+    this.homeBloc.dispose();
+    super.dispose();
   }
 }
