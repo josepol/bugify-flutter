@@ -1,5 +1,5 @@
-import 'package:bugify/bug.model.dart';
 import 'package:bugify/config/theme.dart';
+import 'package:bugify/store/bugs/bug.model.dart';
 import 'package:flutter/material.dart';
 
 class ListBugsWidget extends StatefulWidget {
@@ -31,7 +31,6 @@ class _ListBugsWidgetState extends State<ListBugsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('bugs ------------> $bugs');
     GridTile _getGridTile(BugModel bug) {
       return GridTile(
         header: Container(

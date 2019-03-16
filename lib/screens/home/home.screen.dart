@@ -1,10 +1,10 @@
-import 'package:bugify/bug.model.dart';
 import 'package:bugify/config/constants.dart';
 import 'package:bugify/config/theme.dart';
-import 'package:bugify/screens/home/home.bloc.dart';
-import 'package:bugify/screens/home/home.event.dart';
 import 'package:bugify/screens/home/home.provider.dart';
 import 'package:bugify/screens/home/widgets/list-bugs.widget.dart';
+import 'package:bugify/store/bugs/bug.model.dart';
+import 'package:bugify/store/bugs/bugs.bloc.dart';
+import 'package:bugify/store/bugs/bugs.event.dart';
 import 'package:bugify/widgets/appbar.widget.dart';
 import 'package:bugify/widgets/confirmation.widget.dart';
 import 'package:bugify/widgets/drawer.widget.dart';
@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String token;
   SharedPreferences sharedPreferences;
   HomeProvider homeProvider = HomeProvider();
-  HomeBloc homeBloc = HomeBloc();
+  BugsBloc bugsBloc = BugsBloc();
 
   void initState() {
     super.initState();
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BugModel bugModel = BugModel.fromJson(bug);
           bugsModeled.add(bugModel);
         }).toList();
-        this.homeBloc.homeEventSink.add(GetBugsEvent(bugsModeled));
+        this.bugsBloc.homeEventSink.add(GetBugsEvent(bugsModeled));
       } else {
         print(response);
       }
@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Column(
           children: <Widget>[
             StreamBuilder(
-              stream: homeBloc.bugs,
+              stream: this.bugsBloc.bugs,
               initialData: List<BugModel>(),
               builder: (BuildContext context, AsyncSnapshot<List<BugModel>> snapshot) {
                 return ListBugsWidget(
@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    this.homeBloc.dispose();
+    this.bugsBloc.dispose();
     super.dispose();
   }
 }

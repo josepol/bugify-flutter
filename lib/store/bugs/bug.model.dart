@@ -1,5 +1,3 @@
-import 'dart:io';
-
 class BugModel{  
       String author;
       String category;
