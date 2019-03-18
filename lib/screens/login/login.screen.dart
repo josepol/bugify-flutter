@@ -23,8 +23,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoginButtonEnabled;
   String username;
   String password;
-  TextEditingController _usernameTextFieldController;
-  TextEditingController _passwordTextFieldController;
 
   void initState() {
     super.initState();
@@ -55,9 +53,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _loginButtonPressed() {
-    print('login btn');
-    // this._usernameTextFieldController.clear();
-    // this._passwordTextFieldController.clear();
     LoginModel loginModel = LoginModel(this.username, this.password);
     this.loginProvider.login(loginModel).then((response) {
       TokenModel tokenModel = TokenModel.fromJSON(response.data);
@@ -65,7 +60,6 @@ class _LoginScreenState extends State<LoginScreen> {
       this.autProvider.setToken(tokenModel.token);
       Navigator.pushReplacementNamed(context, Constants.HOME_ROUTE);
     }).catchError((error) {
-      print('error $error');
       this._showErrorDialog();
     });
   }
@@ -85,20 +79,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
   List<Widget> _loginTexFields() {
     return [
-      Text('BUGIFY', style: Theme.of(context).textTheme.title.copyWith(fontSize: 120)),
+      Text('BUGIFY',
+          style: Theme.of(context).textTheme.title.copyWith(fontSize: 120)),
       LoginTextFieldButton(
-        hintText: 'Username',
-        isPassword: false,
-        textOnChangeCallback: this._usernameTextChanged,
-        autofocus: false,
-        controller: _usernameTextFieldController,
-      ),
+          hintText: 'Username',
+          isPassword: false,
+          textOnChangeCallback: this._usernameTextChanged,
+          autofocus: false),
       LoginTextFieldButton(
-        hintText: 'Password',
-        isPassword: true,
-        textOnChangeCallback: this._passwordTextChanged,
-        controller: _passwordTextFieldController,
-      ),
+          hintText: 'Password',
+          isPassword: true,
+          textOnChangeCallback: this._passwordTextChanged),
     ];
   }
 
@@ -153,20 +144,22 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              stops: ThemeConfig.backgroundGradientStops,
-              colors: ThemeConfig.backgroundGradientColor,
-            )),
-            child: SafeArea(
-              child: OrientationBuilder(builder: (context, orientation) {
-                return orientation == Orientation.portrait
-                    ? this.portrait()
-                    : this.landscape();
-              }),
-            )));
+        body: SingleChildScrollView(
+      child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: ThemeConfig.backgroundGradientStops,
+            colors: ThemeConfig.backgroundGradientColor,
+          )),
+          child: SafeArea(
+            child: OrientationBuilder(builder: (context, orientation) {
+              return orientation == Orientation.portrait
+                  ? this.portrait()
+                  : this.landscape();
+            }),
+          )),
+    ));
   }
 }

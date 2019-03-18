@@ -16,7 +16,7 @@ class _AddBugScreenState extends State<AddBugScreen> {
       ),
       body: Container(
         child: Center(
-          child: Text('data'),
+          child: Text('data  123'),
         ),
       ),
     );
