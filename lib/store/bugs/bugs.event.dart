@@ -9,4 +9,14 @@ class GetBugsEvent extends BugsEvent {
   GetBugsEvent(List<BugModel> bugs) {
     this.bugs = bugs;
   }
+
+}
+
+class SetBugSelected extends BugsEvent {
+
+  BugModel bugSelected = BugModel();
+
+  SetBugSelected(BugModel bug) {
+    this.bugSelected = bug;
+  }
 }

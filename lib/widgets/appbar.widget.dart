@@ -1,4 +1,3 @@
-import 'package:bugify/config/constants.dart';
 import 'package:flutter/material.dart';
 
 class AppbarWidget extends StatefulWidget implements PreferredSizeWidget {

@@ -5,14 +5,24 @@ import 'package:bugify/store/bugs/bugs.event.dart';
 
 class BugsBloc {
 
-  final StreamController<List<BugModel>> _bugsStreamController = StreamController<List<BugModel>>();
+  final StreamController<List<BugModel>> _bugsStreamController = StreamController<List<BugModel>>.broadcast();
   StreamSink<List<BugModel>> get _bugsStreamSink => _bugsStreamController.sink;
   Stream<List<BugModel>> get bugs => _bugsStreamController.stream;
 
+  final StreamController<BugModel> _bugSelectedStreamController = StreamController<BugModel>.broadcast();
+  StreamSink<BugModel> get _bugSelectedStreamSink => _bugSelectedStreamController.sink;
+  Stream<BugModel> get bugSelected => _bugSelectedStreamController.stream;
+
   final _bugsEventController = StreamController<BugsEvent>();
   Sink<BugsEvent> get bugsEventSink => _bugsEventController.sink;
+
+  static final BugsBloc _bugsBloc = BugsBloc._internal();
   
-  BugsBloc() {
+  factory BugsBloc() {
+    return _bugsBloc;
+  }
+
+  BugsBloc._internal() {
     _bugsEventController.stream.listen(_mapEventToState);
   }
 
@@ -20,10 +30,14 @@ class BugsBloc {
     if (event is GetBugsEvent) {
       this._bugsStreamSink.add(event.bugs);
     }
+    if (event is SetBugSelected) {
+      this._bugSelectedStreamSink.add(event.bugSelected);
+    }
   }
 
   void dispose() {
     _bugsStreamController.close();
+    _bugSelectedStreamController.close();
     _bugsEventController.close();
   }
 

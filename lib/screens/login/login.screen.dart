@@ -7,7 +7,6 @@ import 'package:bugify/screens/login/models/token.model.dart';
 import 'package:bugify/screens/login/widgets/LoginTextField.widget.dart';
 import 'package:bugify/widgets/button.widget.dart';
 import 'package:bugify/widgets/error.dialog.widget.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,5 +1,7 @@
 import 'package:bugify/config/theme.dart';
 import 'package:bugify/store/bugs/bug.model.dart';
+import 'package:bugify/store/bugs/bugs.bloc.dart';
+import 'package:bugify/store/bugs/bugs.event.dart';
 import 'package:flutter/material.dart';
 
 class ListBugsWidget extends StatefulWidget {
@@ -12,10 +14,11 @@ class ListBugsWidget extends StatefulWidget {
 
 class _ListBugsWidgetState extends State<ListBugsWidget> {
   List<BugModel> bugs;
-
+  BugsBloc bugsBloc = BugsBloc();
   _ListBugsWidgetState(this.bugs);
 
   void navigateToBugDetail(BugModel bug) {
+    this.bugsBloc.bugsEventSink.add(SetBugSelected(bug));
     Navigator.pushNamed(context, '/bug-detail');
   }
 
