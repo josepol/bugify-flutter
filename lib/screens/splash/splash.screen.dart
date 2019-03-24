@@ -29,10 +29,10 @@ class _SplashScreenState extends State<SplashScreen>
 
   void initAnimation() {
     this.controller =
-        AnimationController(duration: const Duration(seconds: 3), vsync: this);
-    this.animation = Tween<double>(begin: 200, end: 500)
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    this.animation = Tween<double>(begin: 100, end: 390)
         .animate(CurvedAnimation(parent: controller, curve: Interval(0.9, 1)));
-    this.animationColor = ColorTween(begin: ThemeConfig.primaryColor, end:  Colors.white).animate(CurvedAnimation(parent: controller, curve: Interval(0.95, 1)));
+    this.animationColor = ColorTween(begin: ThemeConfig.primaryColor, end:  Colors.white).animate(CurvedAnimation(parent: controller, curve: Interval(0.97, 1)));
   }
 
   void getTokenAndNavigate() {
@@ -43,8 +43,10 @@ class _SplashScreenState extends State<SplashScreen>
       this.controller.forward();
       Timer(
           Duration(milliseconds: 3001),
-          () => Navigator.pushReplacementNamed(context,
-              hasToken ? Constants.HOME_ROUTE : Constants.LOGIN_ROUTE));
+          () {
+            Navigator.pushReplacementNamed(context, hasToken ? Constants.HOME_ROUTE : Constants.LOGIN_ROUTE);
+            this.controller.dispose();
+          });
     });
   }
 
@@ -64,7 +66,6 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
-    this.controller.dispose();
     super.dispose();
   }
 }

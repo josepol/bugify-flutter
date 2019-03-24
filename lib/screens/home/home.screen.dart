@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    this.bugsBloc.dispose();
+    // this.bugsBloc.dispose();
     super.dispose();
   }
 }

@@ -3,6 +3,7 @@ import 'package:bugify/config/constants.dart';
 import 'package:bugify/config/theme.dart';
 import 'package:bugify/screens/add-bug/add-bug.screen.dart';
 import 'package:bugify/screens/bug-detail/bug-detail.screen.dart';
+import 'package:bugify/screens/profile/profile.screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import './screens/login/login.screen.dart';
@@ -38,11 +39,13 @@ class MyApp extends StatelessWidget {
     this.init();
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         Constants.LOGIN_ROUTE: (BuildContext context) => LoginScreen(),
         Constants.HOME_ROUTE: (BuildContext context) => HomeScreen(),
         Constants.ADD_BUG: (BuildContext context) => AddBugScreen(),
-        Constants.BUG_DETAIL: (BuildContext context) => BugDetailScreen()
+        Constants.BUG_DETAIL: (BuildContext context) => BugDetailScreen(),
+        Constants.PROFILE: (BuildContext context) => ProfileScreen()
       },
       theme: ThemeData(
           fontFamily: 'OpenSansCondensed',

@@ -32,31 +32,31 @@ class _ListBugsWidgetState extends State<ListBugsWidget> {
     super.didUpdateWidget(oldWidget);
   }
 
+  GridTile _getGridTile(BugModel bug) {
+    return GridTile(
+      header: Container(
+        child: Center(
+          child: Text(bug.title, style: TextStyle(color: Colors.white)),
+        ),
+        height: 30,
+      ),
+      child: InkResponse(
+        onTap: () => this.navigateToBugDetail(bug),
+        child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                color: ThemeConfig.secondaryHeaderColor),
+            padding: EdgeInsets.only(top: 30),
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(bug.description),
+            )),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    GridTile _getGridTile(BugModel bug) {
-      return GridTile(
-        header: Container(
-          child: Center(
-            child: Text(bug.title, style: TextStyle(color: Colors.white)),
-          ),
-          height: 30,
-        ),
-        child: InkResponse(
-          onTap: () => this.navigateToBugDetail(bug),
-          child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: ThemeConfig.secondaryHeaderColor),
-              padding: EdgeInsets.only(top: 30),
-              child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Text(bug.description),
-              )),
-        ),
-      );
-    }
-
     return Expanded(
       child: GridView.count(
           crossAxisCount: 2,

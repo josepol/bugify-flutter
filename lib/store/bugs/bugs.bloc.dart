@@ -13,7 +13,7 @@ class BugsBloc {
   StreamSink<BugModel> get _bugSelectedStreamSink => _bugSelectedStreamController.sink;
   Stream<BugModel> get bugSelected => _bugSelectedStreamController.stream;
 
-  final _bugsEventController = StreamController<BugsEvent>();
+  final _bugsEventController = StreamController<BugsEvent>.broadcast();
   Sink<BugsEvent> get bugsEventSink => _bugsEventController.sink;
 
   static final BugsBloc _bugsBloc = BugsBloc._internal();

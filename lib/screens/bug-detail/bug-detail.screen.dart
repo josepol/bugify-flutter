@@ -10,24 +10,32 @@ class BugDetailScreen extends StatefulWidget {
 
 class _BugDetailScreenState extends State<BugDetailScreen> {
   BugsBloc bugsBloc = BugsBloc();
+  BugModel _bugSelected = BugModel();
+
+  @override
+  void initState() {
+    super.initState();
+    this.bugsBloc.bugSelected.listen((bug) => this._setBugSelected(bug));
+  }
+
+  void _setBugSelected(BugModel bugSelected) {
+    if (this.mounted) {
+      this.setState(() => this._bugSelected = bugSelected);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: this.bugsBloc.bugSelected,
-      initialData: BugModel(),
-      builder: (BuildContext context, AsyncSnapshot<BugModel> snapshot) {
-        print('-----> ${snapshot.data.title}');
-        return Scaffold(
-            appBar: AppBar(
-              title: Text('Bug title'),
-            ),
-            body: Container(
-              child: Center(
-                child: Text(''),
-              ),
-            ));
-      },
-    );
+    print('----------------------------------------------------');
+    print(this._bugSelected.toJson());
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(this._bugSelected.title != null ? this._bugSelected.title : ''),
+        ),
+        body: Container(
+          child: Center(
+            child: Text(''),
+          ),
+        ));
   }
 }
