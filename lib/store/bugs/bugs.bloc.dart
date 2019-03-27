@@ -9,10 +9,6 @@ class BugsBloc {
   StreamSink<List<BugModel>> get _bugsStreamSink => _bugsStreamController.sink;
   Stream<List<BugModel>> get bugs => _bugsStreamController.stream;
 
-  final StreamController<BugModel> _bugSelectedStreamController = StreamController<BugModel>.broadcast();
-  StreamSink<BugModel> get _bugSelectedStreamSink => _bugSelectedStreamController.sink;
-  Stream<BugModel> get bugSelected => _bugSelectedStreamController.stream;
-
   final _bugsEventController = StreamController<BugsEvent>.broadcast();
   Sink<BugsEvent> get bugsEventSink => _bugsEventController.sink;
   
@@ -24,14 +20,10 @@ class BugsBloc {
     if (event is GetBugsEvent) {
       this._bugsStreamSink.add(event.bugs);
     }
-    if (event is SetBugSelected) {
-      this._bugSelectedStreamSink.add(event.bugSelected);
-    }
   }
 
   void dispose() {
     _bugsStreamController.close();
-    _bugSelectedStreamController.close();
     _bugsEventController.close();
   }
 

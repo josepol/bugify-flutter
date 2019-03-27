@@ -1,33 +1,27 @@
 import 'package:bugify/store/bugs/bug.model.dart';
-import 'package:bugify/store/bugs/bugs.bloc.dart';
 import 'package:flutter/material.dart';
 
 class BugDetailScreen extends StatefulWidget {
-  BugDetailScreen({Key key}) : super(key: key);
+
+  final BugModel bug;
+
+  BugDetailScreen({Key key, this.bug}) : super(key: key);
 
   _BugDetailScreenState createState() => _BugDetailScreenState();
 }
 
 class _BugDetailScreenState extends State<BugDetailScreen> {
-  BugModel _bugSelected = BugModel();
 
   @override
   void initState() {
     super.initState();
-    bugsBloc.bugSelected.listen((bug) => this._setBugSelected(bug));
-  }
-
-  void _setBugSelected(BugModel bugSelected) {
-      this.setState(() => this._bugSelected = bugSelected);
   }
 
   @override
   Widget build(BuildContext context) {
-    print('----------------------------------------------------');
-    print(this._bugSelected.toJson());
     return Scaffold(
         appBar: AppBar(
-          title: Text(this._bugSelected.title != null ? this._bugSelected.title : ''),
+          title: Text(this.widget.bug.title != null ? this.widget.bug.title : ''),
         ),
         body: Container(
           child: Center(
