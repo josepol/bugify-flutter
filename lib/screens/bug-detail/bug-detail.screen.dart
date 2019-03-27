@@ -9,19 +9,16 @@ class BugDetailScreen extends StatefulWidget {
 }
 
 class _BugDetailScreenState extends State<BugDetailScreen> {
-  BugsBloc bugsBloc = BugsBloc();
   BugModel _bugSelected = BugModel();
 
   @override
   void initState() {
     super.initState();
-    this.bugsBloc.bugSelected.listen((bug) => this._setBugSelected(bug));
+    bugsBloc.bugSelected.listen((bug) => this._setBugSelected(bug));
   }
 
   void _setBugSelected(BugModel bugSelected) {
-    if (this.mounted) {
       this.setState(() => this._bugSelected = bugSelected);
-    }
   }
 
   @override
@@ -37,5 +34,10 @@ class _BugDetailScreenState extends State<BugDetailScreen> {
             child: Text(''),
           ),
         ));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

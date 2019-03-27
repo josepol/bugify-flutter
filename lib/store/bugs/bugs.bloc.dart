@@ -15,14 +15,8 @@ class BugsBloc {
 
   final _bugsEventController = StreamController<BugsEvent>.broadcast();
   Sink<BugsEvent> get bugsEventSink => _bugsEventController.sink;
-
-  static final BugsBloc _bugsBloc = BugsBloc._internal();
   
-  factory BugsBloc() {
-    return _bugsBloc;
-  }
-
-  BugsBloc._internal() {
+  BugsBloc() {
     _bugsEventController.stream.listen(_mapEventToState);
   }
 
@@ -42,3 +36,5 @@ class BugsBloc {
   }
 
 }
+
+BugsBloc bugsBloc = BugsBloc();

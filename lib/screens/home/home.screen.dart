@@ -23,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
   String token;
   SharedPreferences sharedPreferences;
   HomeProvider homeProvider = HomeProvider();
-  BugsBloc bugsBloc = BugsBloc();
 
   void initState() {
     super.initState();
@@ -54,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BugModel bugModel = BugModel.fromJson(bug);
           bugsModeled.add(bugModel);
         }).toList();
-        this.bugsBloc.bugsEventSink.add(GetBugsEvent(bugsModeled));
+        bugsBloc.bugsEventSink.add(GetBugsEvent(bugsModeled));
       } else {
         print(response);
       }
@@ -89,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Column(
           children: <Widget>[
             StreamBuilder(
-              stream: this.bugsBloc.bugs,
+              stream: bugsBloc.bugs,
               initialData: List<BugModel>(),
               builder: (BuildContext context, AsyncSnapshot<List<BugModel>> snapshot) {
                 return ListBugsWidget(

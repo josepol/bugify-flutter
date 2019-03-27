@@ -14,11 +14,10 @@ class ListBugsWidget extends StatefulWidget {
 
 class _ListBugsWidgetState extends State<ListBugsWidget> {
   List<BugModel> bugs;
-  BugsBloc bugsBloc = BugsBloc();
   _ListBugsWidgetState(this.bugs);
 
   void navigateToBugDetail(BugModel bug) {
-    this.bugsBloc.bugsEventSink.add(SetBugSelected(bug));
+    bugsBloc.bugsEventSink.add(SetBugSelected(bug));
     Navigator.pushNamed(context, '/bug-detail');
   }
 

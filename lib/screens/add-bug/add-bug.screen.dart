@@ -11,9 +11,7 @@ class AddBugScreen extends StatefulWidget {
 
 class _AddBugScreenState extends State<AddBugScreen> {
 
-  AddBugBloc addBugBloc = AddBugBloc();
-
-  void submitForm() => this.addBugBloc.setSubmitFormSubject();
+  void submitForm() => addBugBloc.submitStreamController.sink.add('');
 
   @override
   Widget build(BuildContext context) {

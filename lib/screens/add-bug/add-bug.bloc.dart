@@ -1,27 +1,18 @@
-import 'package:rxdart/rxdart.dart';
+import 'dart:async';
 
 class AddBugBloc {
-  BehaviorSubject _submitFormSubject = BehaviorSubject<bool>();
+  StreamController<String> submitStreamController;
 
-  static final _addBugBloc = AddBugBloc._internal();
+  AddBugBloc();
 
-  factory AddBugBloc() {
-    return _addBugBloc;
-  }
-
-  AddBugBloc._internal() {
-  }
-
-  void setSubmitFormSubject() {
-    this._submitFormSubject.add(true);
-  }
-
-  BehaviorSubject getSubmitFormSubject() {
-    return this._submitFormSubject;
+  void start() {
+    this.submitStreamController = StreamController<String>.broadcast();
   }
 
   void close() {
-    this._submitFormSubject.close();
+    this.submitStreamController.close();
   }
 
 }
+
+AddBugBloc addBugBloc = AddBugBloc();
