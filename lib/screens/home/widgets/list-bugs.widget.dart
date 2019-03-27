@@ -12,7 +12,6 @@ class ListBugsWidget extends StatefulWidget {
 }
 
 class _ListBugsWidgetState extends State<ListBugsWidget> {
-
   @override
   void initState() {
     super.initState();
@@ -52,9 +51,10 @@ class _ListBugsWidgetState extends State<ListBugsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GridView.count(
-          crossAxisCount: 2,
+    return Expanded(child: OrientationBuilder(builder: (context, orientation) {
+      bool isPortrait = orientation == Orientation.portrait;
+      return GridView.count(
+          crossAxisCount: isPortrait ? 2 : 4,
           physics: BouncingScrollPhysics(),
           padding: EdgeInsets.all(10),
           mainAxisSpacing: 4.0,
@@ -63,7 +63,7 @@ class _ListBugsWidgetState extends State<ListBugsWidget> {
               ? this.widget.bugs.map((BugModel bug) {
                   return _getGridTile(bug);
                 }).toList()
-              : []),
-    );
+              : []);
+    }));
   }
 }
