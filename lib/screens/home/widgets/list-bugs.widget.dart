@@ -30,20 +30,28 @@ class _ListBugsWidgetState extends State<ListBugsWidget> {
     return GridTile(
       header: Container(
         child: Center(
-          child: Text(bug.title, style: TextStyle(color: Colors.white)),
+          child: Text(bug.title, style: TextStyle(color: Colors.white), overflow: TextOverflow.ellipsis),
         ),
-        height: 30,
       ),
-      child: InkResponse(
+      child: InkWell(
         onTap: () => this.navigateToBugDetail(bug),
         child: Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 color: ThemeConfig.secondaryHeaderColor),
             padding: EdgeInsets.only(top: 30),
-            child: Padding(
+            child: Container(
               padding: EdgeInsets.all(10),
-              child: Text(bug.description),
+              child: Row(children: <Widget>[
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(bug.description, overflow: TextOverflow.ellipsis)
+                  ],
+                ),
+              ),
+            ])
             )),
       ),
     );
@@ -57,6 +65,7 @@ class _ListBugsWidgetState extends State<ListBugsWidget> {
           crossAxisCount: isPortrait ? 2 : 4,
           physics: BouncingScrollPhysics(),
           padding: EdgeInsets.all(10),
+          childAspectRatio: 1.5,
           mainAxisSpacing: 4.0,
           crossAxisSpacing: 4.0,
           children: this.widget.bugs != null
